@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+@theme {
+  /* This creates utilities like bg-procure-navy, text-procure-navy, etc. */
+  --color-procure-navy: #0F172A;
+  
+  /* This creates utilities like text-procure-copper, border-procure-copper, etc. */
+  --color-procure-copper: #B45309; 
+  
+  --color-procure-slate: #475569;
+}
+
+/* Ensure the app takes up the full screen */
+html, 
+body, 
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
