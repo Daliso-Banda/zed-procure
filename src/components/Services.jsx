@@ -1,46 +1,53 @@
 import React from 'react';
-import { Truck, Scale, Search, Users, FileText, Globe } from 'lucide-react';
+import { 
+  Truck, 
+  HardHat, 
+  Palette, 
+  Printer, 
+  Settings, 
+  Droplets 
+} from 'lucide-react';
 
 const services = [
   {
-    title: "Strategic Sourcing",
-    description: "Finding reliable international and local vendors to ensure quality and cost-efficiency for your business.",
-    icon: <Search className="w-8 h-8 text-procure-copper" />,
+    title: "Construction & Renovation",
+    description: "Specialized in Aluminium and glass works, tiling, and professional ceiling installations for corporate and industrial spaces.",
+    icon: <HardHat className="w-8 h-8 text-procure-copper" />,
   },
   {
-    title: "Tender & Compliance",
-    description: "Expert guidance through ZPPA/e-GP systems, PACRA, and ZRA requirements for seamless bidding.",
-    icon: <Scale className="w-8 h-8 text-procure-copper" />,
+    title: "Corporate Branding & Signage",
+    description: "Full-scale branding solutions including custom apparel design, billboard installation, and customized corporate signage.",
+    icon: <Palette className="w-8 h-8 text-procure-copper" />,
   },
   {
-    title: "Logistics & Clearing",
-    description: "End-to-end supply chain management, including customs clearance at Chirundu, Nakonde, and Kazungula.",
+    title: "Press & Printing Services",
+    description: "High-volume professional printing of flyers, brochures, books, and marketing collateral with precision finishes.",
+    icon: <Printer className="w-8 h-8 text-procure-copper" />,
+  },
+  {
+    title: "Industrial Service Parts",
+    description: "Reliable supply of mechanical and electrical parts, including dies, rolls, bearings, and industrial seals.",
+    icon: <Settings className="w-8 h-8 text-procure-copper" />,
+  },
+  {
+    title: "Industrial Consumables",
+    description: "Sourcing of critical operational inputs like security seals, high-grade lubricants, and specialized chemical inputs.",
+    icon: <Droplets className="w-8 h-8 text-procure-copper" />,
+  },
+  {
+    title: "Industrial Haulage & Logistics",
+    description: "Comprehensive tracking and logistics featuring earth-moving equipment, cranes, and forklift services for heavy operations.",
     icon: <Truck className="w-8 h-8 text-procure-copper" />,
-  },
-  {
-    title: "Contract Management",
-    description: "Managing service level agreements (SLAs) to ensure vendors deliver exactly what was promised.",
-    icon: <FileText className="w-8 h-8 text-procure-copper" />,
-  },
-  {
-    title: "Vendor Prequalification",
-    description: "Vetting and onboarding suppliers to build a robust and ethical supply database for your firm.",
-    icon: <Users className="w-8 h-8 text-procure-copper" />,
-  },
-  {
-    title: "Import/Export Advisory",
-    description: "Navigating COMESA and SADC trade protocols to optimize your cross-border procurement.",
-    icon: <Globe className="w-8 h-8 text-procure-copper" />,
   },
 ];
 
 const Services = () => {
   return (
-    <section className="py-24 bg-slate-50 px-6">
+    <section id="services" className="py-24 bg-slate-50 px-6">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-procure-copper font-bold tracking-widest uppercase text-sm mb-3">Our Expertise</h2>
-          <p className="text-4xl font-extrabold text-procure-navy">Comprehensive Procurement Solutions</p>
+          <p className="text-4xl font-extrabold text-procure-navy">Gentlemans Resources Services</p>
           <div className="w-20 h-1.5 bg-procure-copper mx-auto mt-6 rounded-full"></div>
         </div>
 
@@ -56,11 +63,18 @@ const Services = () => {
                  </div>
               </div>
               <h3 className="text-xl font-bold text-procure-navy mb-4">{service.title}</h3>
-              <p className="text-slate-600 leading-relaxed">
+              <p className="text-slate-600 leading-relaxed text-sm">
                 {service.description}
               </p>
             </div>
           ))}
+        </div>
+        
+        {/* Additional Note for General Dealing */}
+        <div className="mt-16 text-center">
+            <p className="text-slate-500 italic">
+                Looking for something specific? As a <strong>Professional General Dealer</strong>, we source specialized items upon request.
+            </p>
         </div>
       </div>
     </section>
