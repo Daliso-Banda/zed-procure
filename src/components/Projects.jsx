@@ -1,6 +1,12 @@
 import React from 'react';
 import { ExternalLink, Briefcase, Building2, Factory } from 'lucide-react';
 
+// 1. Import your client/partner logos
+import client1 from '../assets/tiger.png';
+import client2 from '../assets/pspf.jpeg';
+import client3 from '../assets/tiger.png';
+import client4 from '../assets/tiger.png';
+
 const projects = [
   {
     title: "Mining Equipment Sourcing",
@@ -25,22 +31,28 @@ const projects = [
   }
 ];
 
-// Placeholder logos - replace these with your actual partner/client logos
-const partners = ["Logo 1", "Logo 2", "Logo 3", "Logo 4", "Logo 5"];
+// 2. Put the imported images into an array
+const partners = [
+  { name: "Client One", logo: client1 },
+  { name: "Client Two", logo: client2 },
+  { name: "Client Three", logo: client3 },
+  { name: "Client Four", logo: client4 },
+];
 
 const Projects = () => {
   return (
-    <section className="py-24 bg-slate-50 px-6 overflow-hidden">
+    <section id="projects" className="py-24 bg-slate-50 px-6 overflow-hidden">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-16">
+        <div className="mb-16 text-center md:text-left">
           <h2 className="text-procure-copper font-bold tracking-widest uppercase text-sm mb-3">Track Record</h2>
           <p className="text-4xl font-extrabold text-procure-navy">Selected Projects</p>
+          <div className="w-20 h-1 bg-procure-copper mt-4 hidden md:block"></div>
         </div>
 
         {/* Project Cards */}
         <div className="grid md:grid-cols-3 gap-8 mb-20">
           {projects.map((project, index) => (
-            <div key={index} className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all">
+            <div key={index} className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
               <div className="p-8">
                 <div className="w-12 h-12 bg-slate-50 rounded-lg flex items-center justify-center mb-6">
                   {project.icon}
@@ -64,11 +76,14 @@ const Projects = () => {
         {/* Partner Logo Cloud */}
         <div className="pt-16 border-t border-slate-200">
           <p className="text-center text-slate-400 font-semibold uppercase text-xs tracking-[0.2em] mb-10">Trusted Industry Partners</p>
-          <div className="flex flex-wrap justify-center gap-12 opacity-50 grayscale hover:opacity-100 transition-opacity">
+          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
             {partners.map((p, i) => (
-              <div key={i} className="text-2xl font-black text-slate-400 hover:text-procure-navy cursor-default transition-colors">
-                {p}
-              </div>
+              <img 
+                key={i} 
+                src={p.logo} 
+                alt={p.name} 
+                className="h-12 md:h-16 w-auto object-contain hover:scale-110 transition-transform"
+              />
             ))}
           </div>
         </div>
