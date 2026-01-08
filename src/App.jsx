@@ -1,6 +1,7 @@
 import React from 'react';
 import Nav from './components/Nav.jsx';
 import Hero from './components/Hero.jsx';
+import Partners from './components/Partners.jsx'
 import Services from './components/Services.jsx';
 import Compliance from './components/Complians.jsx'; 
 import Projects from './components/Projects.jsx';
@@ -17,6 +18,9 @@ const App = () => {
       
       {/* Hero Section - The first thing people see */}
       <Hero />
+
+      {/* partners  */}
+      <Partners/>
       
       {/* Sections with IDs for Smooth Scrolling Navigation */}
       <section id="services">
