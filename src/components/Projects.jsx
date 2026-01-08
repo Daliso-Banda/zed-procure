@@ -1,15 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { ExternalLink, Briefcase, Building2, Factory, Loader2 } from 'lucide-react';
 
-// Keep your partner imports as they are (logos are usually static)
+// 1. Static Assets (Logo imports stay here)
 import client1 from '../assets/tiger.png';
 import client2 from '../assets/pspf.jpeg';
-// ... rest of imports
+import client3 from '../assets/tiger.png';
+import client4 from '../assets/tiger.png';
+
+const partners = [
+  { name: "Tiger", logo: client1 },
+  { name: "PSPF", logo: client2 },
+  { name: "Partner 3", logo: client3 },
+  { name: "Partner 4", logo: client4 },
+];
 
 const Projects = () => {
+  // State for database projects
   const [dbProjects, setDbProjects] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // 2. Fetch projects from MySQL via your Express backend
   useEffect(() => {
     const fetchProjects = async () => {
       try {
@@ -17,20 +27,24 @@ const Projects = () => {
         const data = await response.json();
         setDbProjects(data);
       } catch (error) {
-        console.error("Failed to fetch projects:", error);
+        console.error("Error fetching projects:", error);
       } finally {
         setLoading(false);
       }
     };
+
     fetchProjects();
   }, []);
 
-  // Helper to pick the right icon
+  // 3. Helper function to assign icons based on the project category
   const getIcon = (category) => {
     switch (category?.toLowerCase()) {
-      case 'mining': return <Factory className="text-procure-copper" />;
-      case 'government': return <Building2 className="text-procure-copper" />;
-      default: return <Briefcase className="text-procure-copper" />;
+      case 'mining':
+        return <Factory className="text-procure-copper" />;
+      case 'government':
+        return <Building2 className="text-procure-copper" />;
+      default:
+        return <Briefcase className="text-procure-copper" />;
     }
   };
 
@@ -43,9 +57,11 @@ const Projects = () => {
           <div className="w-20 h-1 bg-procure-copper mt-4 hidden md:block"></div>
         </div>
 
+        {/* 4. Project Cards - Loading State & Mapping */}
         {loading ? (
-          <div className="flex justify-center py-20">
-            <Loader2 className="animate-spin text-procure-copper w-10 h-10" />
+          <div className="flex flex-col items-center justify-center py-20">
+            <Loader2 className="animate-spin text-procure-copper w-10 h-10 mb-4" />
+            <p className="text-slate-500 font-medium">Loading Track Record...</p>
           </div>
         ) : (
           <div className="grid md:grid-cols-3 gap-8 mb-20">
@@ -72,8 +88,20 @@ const Projects = () => {
           </div>
         )}
 
-        {/* Partner Logo Cloud (Remains Static) */}
-        {/* ... existing partners code ... */}
+        {/* Partner Logo Cloud */}
+        <div className="pt-16 border-t border-slate-200">
+          <p className="text-center text-slate-400 font-semibold uppercase text-xs tracking-[0.2em] mb-10">Trusted Industry Partners</p>
+          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+            {partners.map((p, i) => (
+              <img 
+                key={i} 
+                src={p.logo} 
+                alt={p.name} 
+                className="h-12 md:h-16 w-auto object-contain hover:scale-110 transition-transform cursor-pointer"
+              />
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
