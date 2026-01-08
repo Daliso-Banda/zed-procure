@@ -1,45 +1,39 @@
-import React from 'react';
-import { ExternalLink, Briefcase, Building2, Factory } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ExternalLink, Briefcase, Building2, Factory, Loader2 } from 'lucide-react';
 
-// 1. Import your client/partner logos
+// Keep your partner imports as they are (logos are usually static)
 import client1 from '../assets/tiger.png';
 import client2 from '../assets/pspf.jpeg';
-import client3 from '../assets/tiger.png';
-import client4 from '../assets/tiger.png';
-
-const projects = [
-  {
-    title: "Mining Equipment Sourcing",
-    client: "Copperbelt Mining Firm",
-    impact: "Reduced lead time by 15%",
-    description: "Successfully procured and delivered specialized hydraulic components from Europe to Kitwe under tight deadlines.",
-    icon: <Factory className="text-procure-copper" />
-  },
-  {
-    title: "Government Office Supply",
-    client: "Public Sector Agency",
-    impact: "100% ZPPA Compliance",
-    description: "Full-scale stationery and IT infrastructure supply for a provincial headquarters in Lusaka.",
-    icon: <Building2 className="text-procure-copper" />
-  },
-  {
-    title: "Agric-Tech Logistics",
-    client: "Regional Farm Holdings",
-    impact: "Cost saving of $5,000",
-    description: "Streamlined the import of irrigation systems through the Nakonde border with full customs clearance.",
-    icon: <Briefcase className="text-procure-copper" />
-  }
-];
-
-// 2. Put the imported images into an array
-const partners = [
-  { name: "Client One", logo: client1 },
-  { name: "Client Two", logo: client2 },
-  { name: "Client Three", logo: client3 },
-  { name: "Client Four", logo: client4 },
-];
+// ... rest of imports
 
 const Projects = () => {
+  const [dbProjects, setDbProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/projects');
+        const data = await response.json();
+        setDbProjects(data);
+      } catch (error) {
+        console.error("Failed to fetch projects:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProjects();
+  }, []);
+
+  // Helper to pick the right icon
+  const getIcon = (category) => {
+    switch (category?.toLowerCase()) {
+      case 'mining': return <Factory className="text-procure-copper" />;
+      case 'government': return <Building2 className="text-procure-copper" />;
+      default: return <Briefcase className="text-procure-copper" />;
+    }
+  };
+
   return (
     <section id="projects" className="py-24 bg-slate-50 px-6 overflow-hidden">
       <div className="max-w-7xl mx-auto">
@@ -49,44 +43,37 @@ const Projects = () => {
           <div className="w-20 h-1 bg-procure-copper mt-4 hidden md:block"></div>
         </div>
 
-        {/* Project Cards */}
-        <div className="grid md:grid-cols-3 gap-8 mb-20">
-          {projects.map((project, index) => (
-            <div key={index} className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-              <div className="p-8">
-                <div className="w-12 h-12 bg-slate-50 rounded-lg flex items-center justify-center mb-6">
-                  {project.icon}
-                </div>
-                <h3 className="text-xl font-bold text-procure-navy mb-2">{project.title}</h3>
-                <p className="text-sm font-semibold text-procure-copper mb-4 uppercase tracking-tight">{project.client}</p>
-                <p className="text-slate-600 text-sm leading-relaxed mb-6">
-                  {project.description}
-                </p>
-                <div className="pt-4 border-t border-slate-100 flex justify-between items-center">
-                  <span className="text-xs font-bold bg-blue-50 text-blue-700 px-3 py-1 rounded-full">
-                    {project.impact}
-                  </span>
-                  <ExternalLink size={16} className="text-slate-400" />
+        {loading ? (
+          <div className="flex justify-center py-20">
+            <Loader2 className="animate-spin text-procure-copper w-10 h-10" />
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-3 gap-8 mb-20">
+            {dbProjects.map((project) => (
+              <div key={project.id} className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                <div className="p-8">
+                  <div className="w-12 h-12 bg-slate-50 rounded-lg flex items-center justify-center mb-6">
+                    {getIcon(project.category)}
+                  </div>
+                  <h3 className="text-xl font-bold text-procure-navy mb-2">{project.title}</h3>
+                  <p className="text-sm font-semibold text-procure-copper mb-4 uppercase tracking-tight">{project.client}</p>
+                  <p className="text-slate-600 text-sm leading-relaxed mb-6">
+                    {project.description}
+                  </p>
+                  <div className="pt-4 border-t border-slate-100 flex justify-between items-center">
+                    <span className="text-xs font-bold bg-blue-50 text-blue-700 px-3 py-1 rounded-full">
+                      {project.impact}
+                    </span>
+                    <ExternalLink size={16} className="text-slate-400" />
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Partner Logo Cloud */}
-        <div className="pt-16 border-t border-slate-200">
-          <p className="text-center text-slate-400 font-semibold uppercase text-xs tracking-[0.2em] mb-10">Trusted Industry Partners</p>
-          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-            {partners.map((p, i) => (
-              <img 
-                key={i} 
-                src={p.logo} 
-                alt={p.name} 
-                className="h-12 md:h-16 w-auto object-contain hover:scale-110 transition-transform"
-              />
             ))}
           </div>
-        </div>
+        )}
+
+        {/* Partner Logo Cloud (Remains Static) */}
+        {/* ... existing partners code ... */}
       </div>
     </section>
   );
