@@ -2,7 +2,7 @@ import React from 'react';
 import { MessageCircle } from 'lucide-react';
 
 const WhatsAppButton = () => {
-  const phoneNumber = "26097XXXXXXX"; // Use Zambian format without the +
+  const phoneNumber = "260975018253"; // Use Zambian format without the +
   const message = "Hi Gentlemans Resources LTD, I'm interested in your procurement services.";
   const encodedMessage = encodeURIComponent(message);
   
