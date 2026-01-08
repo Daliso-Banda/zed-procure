@@ -14,6 +14,23 @@ const QuoteModal = ({ isOpen, onClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // This is where we will eventually fetch() to your Node.js backend
+    fetch("https://localhost:3000/api/quotes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log("Success:", data);
+      alert("Thank you! Gentlemans Resources will contact you shortly.");
+      onClose();
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      alert("There was an error submitting your request. Please try again later.");
+    });
     console.log("Form Data Submitted:", formData);
     alert("Thank you! Gentlemans Resources will contact you shortly.");
     onClose();
