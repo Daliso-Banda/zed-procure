@@ -19,10 +19,10 @@ const Footer = () => {
         <div>
           <h4 className="font-bold mb-6 text-lg">Quick Links</h4>
           <ul className="space-y-4 text-slate-400 text-sm">
-            <li><a href="#" className="hover:text-procure-copper transition">Our Services</a></li>
-            <li><a href="#" className="hover:text-procure-copper transition">Compliance Documents</a></li>
-            <li><a href="#" className="hover:text-procure-copper transition">Vendor Registration</a></li>
-            <li><a href="#" className="hover:text-procure-copper transition">Privacy Policy</a></li>
+            <li><a href="#Services" className="hover:text-procure-copper transition">Our Services</a></li>
+            <li><a href="#Compliance" className="hover:text-procure-copper transition">Compliance Documents</a></li>
+            <li><a href="#Vendor" className="hover:text-procure-copper transition">Vendor Registration</a></li>
+            <li><a href="#Privacy" className="hover:text-procure-copper transition">Privacy Policy</a></li>
           </ul>
         </div>
 
@@ -36,7 +36,7 @@ const Footer = () => {
             </li>
             <li className="flex items-center gap-3">
               <Phone size={18} className="text-procure-copper" />
-              <span>+260 97XXXXXXX</span>
+              <span>+260 975018253</span>
             </li>
             <li className="flex items-center gap-3">
               <Mail size={18} className="text-procure-copper" />
