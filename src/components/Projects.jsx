@@ -50,11 +50,17 @@ const Projects = () => {
                 
                 {/* Image Section - Fixed Height */}
                 <div className="relative h-48 w-full overflow-hidden">
-                  <img 
-                    src={project.imageUrl || 'https://via.placeholder.com/400x300?text=Project+Image'} 
-                    alt={project.title} 
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
+               
+<img 
+  src={project.imageUrl 
+    ? `http://localhost:5000${project.imageUrl}` 
+    : 'https://via.placeholder.com/400x300?text=No+Project+Image'
+  } 
+  alt={project.title} 
+  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+  // Add an onError handler in case the image still fails
+  onError={(e) => { e.target.src = 'https://via.placeholder.com/400x300?text=Image+Not+Found'; }}
+/>
                   {/* Category Icon Overlay */}
                   <div className="absolute top-4 left-4 bg-procure-navy/90 p-2 rounded-lg backdrop-blur-sm shadow-lg">
                     {getIcon(project.category)}
