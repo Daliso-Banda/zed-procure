@@ -50,7 +50,7 @@ const Footer = () => {
           <h4 className="font-bold mb-6 text-lg">Follow Us</h4>
           <div className="flex gap-4 mb-6">
             <a href="#" className="bg-slate-800 p-3 rounded-full hover:bg-procure-copper transition"><Linkedin size={20} /></a>
-            <a href="#" className="bg-slate-800 p-3 rounded-full hover:bg-procure-copper transition"><Facebook size={20} /></a>
+            <a href="https://www.facebook.com/profile.php?id=100081865574071" className="bg-slate-800 p-3 rounded-full hover:bg-procure-copper transition"><Facebook size={20} /></a>
           </div>
           <p className="text-xs text-slate-500 italic">Registered in the Republic of Zambia</p>
         </div>
