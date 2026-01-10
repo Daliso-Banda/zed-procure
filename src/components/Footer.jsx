@@ -2,6 +2,13 @@ import React from 'react';
 import { Mail, Phone, MapPin, Linkedin, Facebook } from 'lucide-react';
 
 const Footer = () => {
+  const companyName = import.meta.env.VITE_COMPANY_NAME;
+  const companyPhone = import.meta.env.VITE_COMPANY_PHONE;
+  const companyEmail = import.meta.env.VITE_COMPANY_EMAIL;
+  const companyAddress = import.meta.env.VITE_COMPANY_ADDRESS;
+  const facebookUrl = import.meta.env.VITE_FACEBOOK_URL;
+  const linkedinUrl = import.meta.env.VITE_LINKEDIN_URL;
+
   return (
     <footer className="bg-procure-navy text-white pt-16 pb-8 px-6">
       <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-12 border-b border-slate-700 pb-12">
@@ -32,15 +39,15 @@ const Footer = () => {
           <ul className="space-y-4 text-slate-400 text-sm">
             <li className="flex items-center gap-3">
               <MapPin size={18} className="text-procure-copper" />
-              <span>Plot 123, Great East Road, Lusaka</span>
+              <span>{companyAddress}</span>
             </li>
             <li className="flex items-center gap-3">
               <Phone size={18} className="text-procure-copper" />
-              <span>+260 975018253</span>
+              <span>{companyPhone}</span>
             </li>
             <li className="flex items-center gap-3">
               <Mail size={18} className="text-procure-copper" />
-              <span>info@gentlemansresources.co.zm</span>
+              <span>{companyEmail}</span>
             </li>
           </ul>
         </div>
@@ -49,15 +56,15 @@ const Footer = () => {
         <div>
           <h4 className="font-bold mb-6 text-lg">Follow Us</h4>
           <div className="flex gap-4 mb-6">
-            <a href="#" className="bg-slate-800 p-3 rounded-full hover:bg-procure-copper transition"><Linkedin size={20} /></a>
-            <a href="https://www.facebook.com/profile.php?id=100081865574071" className="bg-slate-800 p-3 rounded-full hover:bg-procure-copper transition"><Facebook size={20} /></a>
+            <a href={linkedinUrl} className="bg-slate-800 p-3 rounded-full hover:bg-procure-copper transition"><Linkedin size={20} /></a>
+            <a href={facebookUrl} className="bg-slate-800 p-3 rounded-full hover:bg-procure-copper transition"><Facebook size={20} /></a>
           </div>
           <p className="text-xs text-slate-500 italic">Registered in the Republic of Zambia</p>
         </div>
       </div>
       
       <div className="max-w-7xl mx-auto mt-8 flex flex-col md:flex-row justify-between items-center text-slate-500 text-xs">
-        <p>© 2026 Gentlemans Resources LTD. All rights reserved.</p>
+        <p>© 2026 {companyName}. All rights reserved.</p>
         <p>A member of the Zambia Institute of Purchasing and Supply (ZIPS)</p>
       </div>
     </footer>
