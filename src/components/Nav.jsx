@@ -10,10 +10,12 @@ const Nav = () => {
     <>
       <nav className="bg-white border-b border-slate-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between h-20 items-center">
-          <div className="flex items-center gap-2">
-            <div className="bg-procure-navy p-2 rounded">
-              <BarChart3 className="text-white w-6 h-6" />
-            </div>
+          <div className="flex items-center gap-3">
+            <img 
+              src="/src/assets/logo.jpeg" 
+              alt="Company Logo" 
+              className="h-12 w-auto object-contain"
+            />
             <span className="text-2xl font-bold text-procure-navy tracking-tight">
               Gentlemans<span className="text-procure-copper font-extrabold"> Resources</span>
             </span>
