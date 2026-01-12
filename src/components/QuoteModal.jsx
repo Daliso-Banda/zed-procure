@@ -18,7 +18,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
 
     try {
       // 1. Connect to your local backend API
-      const response = await fetch('http://localhost:5000/api/quotes', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/quotes`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
