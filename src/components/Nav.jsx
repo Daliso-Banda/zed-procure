@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { BarChart3, Menu } from 'lucide-react';
 import QuoteModal from './QuoteModal.jsx';
+import logo from '../assets/logo.jpeg';
 
 const Nav = () => {
   // Use a consistent name for the state
@@ -12,7 +13,7 @@ const Nav = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between h-20 items-center">
           <div className="flex items-center gap-3">
             <img 
-              src="../assets/logo.jpeg" 
+              src={logo} 
               alt="Company Logo" 
               className="h-12 w-auto object-contain"
             />
