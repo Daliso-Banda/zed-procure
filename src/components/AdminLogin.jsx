@@ -3,21 +3,45 @@ import React, { useState } from 'react';
 const AdminLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false); // New: feedback state
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    // Your fetch logic to /api/login goes here
-    console.log("Attempting login for:", email);
+    setLoading(true);
+    
+    try {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: email, password: password }), 
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // This 'adminToken' matches your ProtectedRoute check in App.jsx
+        localStorage.setItem('adminToken', 'true');
+        window.location.href = '/admin';
+      } else {
+        alert(data.message || "Invalid credentials. Please try again.");
+      }
+    } catch (error) {
+      console.error("Login Error:", error);
+      alert("Connect to the server failed. Check your backend.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div style={styles.page}>
       <div style={styles.contentWrapper}>
-        {/* Left Side: Branding (FB Style) */}
+        {/* Left Side: Branding */}
         <div style={styles.brandSide}>
           <h1 style={styles.logoText}>Gentleman's</h1>
           <p style={styles.subText}>
-            Admin   </p>
+            Refined administration for the modern boutique.
+          </p>
         </div>
 
         {/* Right Side: Login Card */}
@@ -28,6 +52,7 @@ const AdminLogin = () => {
                 style={styles.input}
                 type="text"
                 placeholder="Email or Username"
+                value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
@@ -35,15 +60,20 @@ const AdminLogin = () => {
                 style={styles.input}
                 type="password"
                 placeholder="Password"
+                value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-              <button type="submit" style={styles.loginBtn}>
-                Log In
+              <button 
+                type="submit" 
+                style={{...styles.loginBtn, opacity: loading ? 0.7 : 1}} 
+                disabled={loading}
+              >
+                {loading ? 'Authenticating...' : 'Log In'}
               </button>
             </form>
             <div style={styles.divider} />
-            <button style={styles.forgotBtn}>Forgot password?</button>
+            <button type="button" style={styles.forgotBtn}>Forgot password?</button>
           </div>
           <p style={styles.footerText}>
             <b>Access Restricted</b> to authorized personnel only.
@@ -54,9 +84,10 @@ const AdminLogin = () => {
   );
 };
 
+// ... (Your styles remain the same)
 const styles = {
   page: {
-    backgroundColor: '#f0f2f5', // FB Light Grey background
+    backgroundColor: '#f0f2f5',
     height: '100vh',
     display: 'flex',
     justifyContent: 'center',
@@ -75,7 +106,7 @@ const styles = {
     paddingRight: '32px',
   },
   logoText: {
-    color: '#c5a059', // Gentleman Gold
+    color: '#c5a059',
     fontSize: '50px',
     fontWeight: 'bold',
     margin: '0',
@@ -110,7 +141,7 @@ const styles = {
   loginBtn: {
     width: '100%',
     height: '48px',
-    backgroundColor: '#1a1a1a', // Dark theme button
+    backgroundColor: '#1a1a1a',
     color: '#c5a059',
     fontSize: '20px',
     fontWeight: 'bold',
@@ -118,6 +149,7 @@ const styles = {
     borderRadius: '6px',
     cursor: 'pointer',
     marginTop: '6px',
+    transition: '0.2s'
   },
   divider: {
     borderBottom: '1px solid #dadde1',
