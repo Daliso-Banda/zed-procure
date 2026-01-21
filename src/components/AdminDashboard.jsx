@@ -25,9 +25,9 @@ const AdminDashboard = () => {
 
   // Fetch data based on active tab
   useEffect(() => {
-    fetch('http://localhost:5000/api/quotes').then(res => res.json()).then(setQuotes);
-    fetch('http://localhost:5000/api/projects').then(res => res.json()).then(setProjects);
-    fetch('http://localhost:5000/api/partners').then(res => res.json()).then(setPartners);
+    fetch(`${import.meta.env.VITE_API_URL}/quotes`).then(res => res.json()).then(setQuotes);
+    fetch(`${import.meta.env.VITE_API_URL}/projects`).then(res => res.json()).then(setProjects);
+    fetch(`${import.meta.env.VITE_API_URL}/partners`).then(res => res.json()).then(setPartners);
   }, [activeTab]);
 
   const handlePartnerSubmit = async (e) => {
@@ -38,7 +38,7 @@ const AdminDashboard = () => {
     formData.append('name', partnerName);
     formData.append('logo', partnerFile);
 
-    const res = await fetch('http://localhost:5000/api/partners', {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/partners`, {
       method: 'POST',
       body: formData
     });
@@ -61,7 +61,7 @@ const AdminDashboard = () => {
     formData.append('category', newProject.category);
     if (file) formData.append('image', file);
 
-    const res = await fetch('http://localhost:5000/api/projects', {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/projects`, {
       method: 'POST',
       body: formData
     });
@@ -74,7 +74,7 @@ const AdminDashboard = () => {
 
   const deleteItem = async (type, id) => {
     if(window.confirm(`Delete this ${type}?`)) {
-      await fetch(`http://localhost:5000/api/${type}s/${id}`, { method: 'DELETE' });
+      await fetch(`${import.meta.env.VITE_API_URL}/${type}s/${id}`, { method: 'DELETE' });
       if (type === 'project') setProjects(projects.filter(p => p.id !== id));
       if (type === 'partner') setPartners(partners.filter(p => p.id !== id));
     }
@@ -135,7 +135,7 @@ const AdminDashboard = () => {
             <div className="grid md:grid-cols-2 gap-6">
               {projects.map(p => (
                 <div key={p.id} className="bg-white rounded-2xl border border-slate-200 shadow-sm flex items-center p-4 gap-4">
-                  <img src={`http://localhost:5000${p.imageUrl}`} className="w-20 h-20 object-cover rounded-xl" alt="" />
+                  <img src={`${import.meta.env.VITE_API_URL}${p.imageUrl}`} className="w-20 h-20 object-cover rounded-xl" alt="" />
                   <div className="flex-1">
                     <h4 className="font-bold text-procure-navy leading-tight">{p.title}</h4>
                     <p className="text-xs text-procure-copper font-bold uppercase mt-1">{p.client}</p>
@@ -159,7 +159,7 @@ const AdminDashboard = () => {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {partners.map(p => (
                 <div key={p.id} className="bg-white p-6 rounded-2xl border border-slate-200 text-center relative group">
-                  <img src={`http://localhost:5000${p.logoUrl}`} className="h-12 mx-auto object-contain mb-4" alt={p.name} />
+                  <img src={`${import.meta.env.VITE_API_URL}${p.logoUrl}`} className="h-12 mx-auto object-contain mb-4" alt={p.name} />
                   <p className="text-sm font-bold text-procure-navy uppercase tracking-tighter">{p.name}</p>
                   <button onClick={() => deleteItem('partner', p.id)} className="absolute top-2 right-2 p-2 text-red-400 opacity-0 group-hover:opacity-100 transition-opacity">
                     <Trash2 size={14} />

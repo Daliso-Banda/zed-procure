@@ -4,7 +4,7 @@ const Partners = () => {
   const [dbPartners, setDbPartners] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/partners')
+    fetch(`${import.meta.env.VITE_API_URL}/partners`)
       .then(res => res.json())
       .then(data => setDbPartners(data))
       .catch(err => console.error("Error loading partners:", err));
@@ -23,7 +23,7 @@ const Partners = () => {
           {dbPartners.map((p) => (
             <div key={p.id} className="group relative flex items-center justify-center">
               <img 
-                src={`http://localhost:5000${p.logoUrl}`} 
+                src={`${import.meta.env.VITE_API_URL}${p.logoUrl}`} 
                 alt={p.name} 
                 className="h-10 md:h-14 w-auto object-contain opacity-50 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 transform group-hover:scale-110"
               />

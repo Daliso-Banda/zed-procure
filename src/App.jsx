@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 // Components
 import Nav from './components/Nav.jsx';
@@ -11,34 +11,30 @@ import Projects from './components/Projects.jsx';
 import Footer from './components/Footer.jsx';
 import WhatsAppButton from './components/WhatsAppButton.jsx';
 
-// Admin Dashboard
+// Admin Components
 import AdminDashboard from './components/AdminDashboard.jsx';
+import AdminLogin from './components/AdminLogin.jsx'; // Make sure to create this
 
-// 1. We create a "Home" component to hold the public landing page
+// 1. Protected Route Wrapper
+// This checks if 'adminToken' exists in localStorage. If not, it kicks the user to /login
+const ProtectedRoute = ({ children }) => {
+  const isAuthenticated = localStorage.getItem('adminToken') === 'true'; 
+  return isAuthenticated ? children : <Navigate to="/login" replace />;
+};
+
 const Home = () => (
   <div className="min-h-screen bg-slate-50 text-slate-900 font-sans scroll-smooth">
     <Nav />
     <Hero />
     <Partners />
-    
-    <section id="services">
-      <Services />
-    </section>
-
-    <section id="compliance">
-      <Compliance />
-    </section>
-
-    <section id="projects">
-      <Projects />
-    </section>
-
+    <section id="services"><Services /></section>
+    <section id="compliance"><Compliance /></section>
+    <section id="projects"><Projects /></section>
     <Footer />
     <WhatsAppButton />
   </div>
 );
 
-// 2. Main App with Routing Logic
 const App = () => {
   return (
     <Router>
@@ -46,8 +42,21 @@ const App = () => {
         {/* Public Landing Page */}
         <Route path="/" element={<Home />} />
 
-        {/* Secret Admin Dashboard */}
-        <Route path="/admin" element={<AdminDashboard />} />
+        {/* Login Page */}
+        <Route path="/login" element={<AdminLogin />} />
+
+        {/* Protected Admin Dashboard */}
+        <Route 
+          path="/admin" 
+          element={
+            <ProtectedRoute>
+              <AdminDashboard />
+            </ProtectedRoute>
+          } 
+        />
+        
+        {/* Redirect any unknown admin paths to /admin */}
+        <Route path="/admin/*" element={<Navigate to="/admin" />} />
       </Routes>
     </Router>
   );

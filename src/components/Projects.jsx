@@ -12,7 +12,7 @@ const Projects = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/projects');
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/projects`);
         const data = await response.json();
         setDbProjects(data);
       } catch (error) {
@@ -53,7 +53,7 @@ const Projects = () => {
                
 <img 
   src={project.imageUrl 
-    ? `http://localhost:5000${project.imageUrl}` 
+    ? `${import.meta.env.VITE_API_URL}${project.imageUrl}` 
     : 'https://via.placeholder.com/400x300?text=No+Project+Image'
   } 
   alt={project.title} 
