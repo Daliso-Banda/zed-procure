@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, Send, Loader2 } from 'lucide-react';
-  import { notifyAdmin } from "@/services/notifyAdmin";
+  import { notifyAdmin } from "../services/notifyAdmin";
   
 const QuoteModal = ({ isOpen, onClose }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
