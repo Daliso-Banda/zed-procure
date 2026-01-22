@@ -38,7 +38,7 @@ const Home = () => (
 const App = () => {
   return (
     <Router>
-      <Routes>
+      <Routes> 
         {/* Public Landing Page */}
         <Route path="/" element={<Home />} />
 

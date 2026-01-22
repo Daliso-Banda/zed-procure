@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Send, Loader2 } from 'lucide-react';
-
+  import { notifyAdmin } from "../services/notifyAdmin";
+  
 const QuoteModal = ({ isOpen, onClose }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
@@ -12,36 +13,35 @@ const QuoteModal = ({ isOpen, onClose }) => {
 
   if (!isOpen) return null;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
 
-    try {
-      // 1. Connect to your local backend API
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/quotes`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
 
-      const data = await response.json();
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setIsSubmitting(true);
 
-      if (response.ok) {
-        alert("Success! Gentlemans Resources has received your request.");
-        setFormData({ name: '', email: '', service: 'Construction & Renovation', details: '' }); // Reset form
-        onClose();
-      } else {
-        alert("Error: " + (data.message || "Failed to submit request"));
-      }
-    } catch (error) {
-      console.error("Submission error:", error);
-      alert("Could not connect to the server. Please check if the backend is running.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  try {
+    await notifyAdmin({
+      event: "quote_request",
+      source: "website",
+      timestamp: new Date().toISOString(),
+      data: formData
+    });
+
+    alert("Success! Gentlemans Resources has received your request.");
+    setFormData({
+      name: '',
+      email: '',
+      service: 'Construction & Renovation',
+      details: ''
+    });
+    onClose();
+  } catch (error) {
+    console.error(error);
+    alert("Could not submit request. Please try again.");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
