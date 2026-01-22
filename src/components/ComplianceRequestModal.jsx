@@ -36,15 +36,17 @@ const ComplianceRequestModal = ({ isOpen, onClose }) => {
     setIsSubmitting(true);
 
     try {
-      await notifyAdmin({
-        event: "compliance_request",
-        source: "website",
-        timestamp: new Date().toISOString(),
-        data: {
-          ...formData,
-          documents: selectedDocs
-        }
-      });
+      // Inside handleSubmit in your React file
+await notifyAdmin({
+  siteKey: "gentlemans-frontend", // ADD THIS LINE
+  event: "compliance_request",
+  source: "website",
+  timestamp: new Date().toISOString(),
+  data: {
+    ...formData,
+    documents: selectedDocs
+  }
+});
 
       alert("Compliance request sent successfully.");
       onClose();
