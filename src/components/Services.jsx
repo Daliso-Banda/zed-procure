@@ -1,7 +1,7 @@
 import React from 'react';
 import { 
   Truck, 
-  HardHat, 
+  HardHat,
   Palette, 
   Printer, 
   Settings, 
