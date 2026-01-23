@@ -1,17 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+
+// Import your client/partner logos
+import client1 from '../assets/tiger.png';
+import client2 from '../assets/pspf.jpeg';
+import client3 from '../assets/tiger.png'; // Replace with actual unique logos
+import client4 from '../assets/tiger.png';
+
+const partners = [
+  { name: "Tiger", logo: client1 },
+  { name: "PSPF", logo: client2 },
+  { name: "Partner 3", logo: client3 },
+  { name: "Partner 4", logo: client4 },
+  { name: "Partner 5", logo: client1 }, // Duplicate or add more to fill space
+  { name: "Partner 6", logo: client2 },
+];
 
 const Partners = () => {
-  const [dbPartners, setDbPartners] = useState([]);
-
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/partners`)
-      .then(res => res.json())
-      .then(data => setDbPartners(data))
-      .catch(err => console.error("Error loading partners:", err));
-  }, []);
-
-  if (dbPartners.length === 0) return null; // Hide section if no partners are in DB
-
   return (
     <section className="py-16 bg-white border-t border-slate-100">
       <div className="max-w-7xl mx-auto px-6">
@@ -20,13 +24,17 @@ const Partners = () => {
         </p>
         
         <div className="flex flex-wrap justify-center items-center gap-10 md:gap-20">
-          {dbPartners.map((p) => (
-            <div key={p.id} className="group relative flex items-center justify-center">
+          {partners.map((p, i) => (
+            <div 
+              key={i} 
+              className="group relative flex items-center justify-center"
+            >
               <img 
-                src={`${import.meta.env.VITE_API_URL}${p.logoUrl}`} 
+                src={p.logo} 
                 alt={p.name} 
                 className="h-10 md:h-14 w-auto object-contain opacity-50 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 transform group-hover:scale-110"
               />
+              {/* Tooltip on hover */}
               <span className="absolute -top-8 scale-0 group-hover:scale-100 transition-all bg-procure-navy text-white text-[10px] py-1 px-2 rounded font-bold uppercase tracking-wider">
                 {p.name}
               </span>
