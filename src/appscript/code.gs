@@ -20,6 +20,37 @@ const SHEET_ID = "1oP-iwSN7jJ5OVY3S-_n1iMJvktNmvbsl4BNmVSBBTu4";
 /***********************
  * ENTRY POINT
  ***********************/
+/***********************
+ * FETCH PROJECTS (GET)
+ ***********************/
+function doGet(e) {
+  try {
+    const ss = SpreadsheetApp.openById(SHEET_ID);
+    const sheet = ss.getSheetByName("Projects"); // Ensure your sheet tab is named exactly "Projects"
+    const data = sheet.getDataRange().getValues();
+    
+    // Assume Row 1 is headers: [ID, Title, Client, Category, Description, Impact, ImageID]
+    const rows = data.slice(1);
+    
+    const projects = rows.map(row => ({
+      id: row[0],
+      title: row[1],
+      client: row[2],
+      category: row[3],
+      description: row[4],
+      impact: row[5],
+      // Transformation of Drive ID to direct image URL
+      imageUrl: row[6] ? `https://drive.google.com/uc?export=view&id=${row[6]}` : null
+    }));
+
+    return ContentService.createTextOutput(JSON.stringify(projects))
+      .setMimeType(ContentService.MimeType.JSON);
+      
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({ error: err.message }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
 function doPost(e) {
   try {
     if (!e || !e.postData || !e.postData.contents) {
