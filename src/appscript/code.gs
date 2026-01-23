@@ -23,32 +23,60 @@ const SHEET_ID = "1oP-iwSN7jJ5OVY3S-_n1iMJvktNmvbsl4BNmVSBBTu4";
 /***********************
  * FETCH PROJECTS (GET)
  ***********************/
+/***********************
+ * FETCH PROJECTS (GET)
+ ***********************/
 function doGet(e) {
   try {
     const ss = SpreadsheetApp.openById(SHEET_ID);
-    const sheet = ss.getSheetByName("Projects"); // Ensure your sheet tab is named exactly "Projects"
+    const sheet = ss.getSheetByName("Projects"); 
+    
+    if (!sheet) {
+      return ContentService.createTextOutput(JSON.stringify({ error: "Sheet 'Projects' not found" }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
     const data = sheet.getDataRange().getValues();
+    const rows = data.slice(1); // Skip header row
     
-    // Assume Row 1 is headers: [ID, Title, Client, Category, Description, Impact, ImageID]
-    const rows = data.slice(1);
-    
-    const projects = rows.map(row => ({
-      id: row[0],
-      title: row[1],
-      client: row[2],
-      category: row[3],
-      description: row[4],
-      impact: row[5],
-      // Transformation of Drive ID to direct image URL
-      imageUrl: row[6] ? `https://drive.google.com/uc?export=view&id=${row[6]}` : null
-    }));
+    const projects = rows.map(row => {
+      const rawImageValue = String(row[6] || ""); 
+      let fileId = "";
+
+      // Extract File ID from full URL or use as-is
+      if (rawImageValue.includes("/d/")) {
+        fileId = rawImageValue.split("/d/")[1].split("/")[0];
+      } else if (rawImageValue.includes("id=")) {
+        fileId = rawImageValue.split("id=")[1].split("&")[0];
+      } else {
+        fileId = rawImageValue;
+      }
+
+      // Using the thumbnail endpoint to prevent Opaque Response Blocking
+      const finalImageUrl = fileId 
+        ? `https://drive.google.com/thumbnail?id=${fileId}&sz=w1200` 
+        : null;
+
+      return {
+        id: row[0],
+        title: row[1],
+        client: row[2],
+        category: row[3],
+        description: row[4],
+        impact: row[5],
+        imageUrl: finalImageUrl
+      };
+    });
 
     return ContentService.createTextOutput(JSON.stringify(projects))
       .setMimeType(ContentService.MimeType.JSON);
-      
+
   } catch (err) {
-    return ContentService.createTextOutput(JSON.stringify({ error: err.message }))
-      .setMimeType(ContentService.MimeType.JSON);
+    return ContentService.createTextOutput(JSON.stringify({ 
+      status: "error", 
+      message: err.toString() 
+    }))
+    .setMimeType(ContentService.MimeType.JSON);
   }
 }
 function doPost(e) {
