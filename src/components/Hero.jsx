@@ -1,24 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ShieldCheck } from 'lucide-react';
-import ImageSlider from './ImageSlider.jsx'; 
+import ImageSlider from './ImageSlider.jsx';
+import MobileImageSlider from './MobileImageSlider.jsx';
 
 import heroImage1 from '../assets/gentsgate.jpeg'; 
 import heroImage2 from '../assets/tiger.png'; 
 
 const Hero = () => {
-  const sliderImages = [
-    heroImage1, 
-    heroImage2,
-    heroImage1
-  ];
+  const [isMobile, setIsMobile] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    
+    // Set initial value on mount
+    handleResize();
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const sliderImages = [heroImage1, heroImage2, heroImage1];
+
+  // Prevent hydration mismatch by not rendering slider until mounted
+  if (!mounted) return null;
 
   return (
-<header className="relative pt-24 pb-12 md:py-24 bg-white overflow-hidden">
-  {/* pt-24 ensures the content starts BELOW your sticky h-20 nav */}
+    <header className="relative pt-0 pb-12 md:py-24 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center gap-10 md:gap-12">
         
-        {/* Text Content: Center-aligned on mobile, Left-aligned on desktop */}
-        <div className="flex-1 space-y-6 md:space-y-8 text-center md:text-left order-2 md:order-1">
+        {/* Text Content */}
+        <div className="flex-1 space-y-6 md:space-y-8 text-center md:text-left order-1">
           <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs sm:text-sm font-semibold border border-blue-100">
             <ShieldCheck size={16} /> ZPPA & ZRA Compliant
           </div>
@@ -29,24 +42,29 @@ const Hero = () => {
           </h1>
           
           <p className="text-lg md:text-xl text-procure-slate max-w-lg mx-auto md:mx-0">
-            Optimizing supply chains across Lusaka, the Copperbelt, and beyond. We provide transparent, value-driven procurement.
+            Optimizing supply chains across Lusaka, the Copperbelt, and beyond.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-            <a href="#projects" className="bg-procure-navy text-white px-8 py-4 rounded-lg font-bold text-lg hover:shadow-xl transition-all inline-block">
+            <a href="#projects" className="bg-procure-navy text-white px-8 py-4 rounded-lg font-bold text-lg hover:shadow-xl transition-all">
               View Projects
             </a>
           </div>
         </div>
 
-        {/* The Slider Section: Moves to the top on mobile for visual impact */}
-        <div className="flex-1 w-full h-[300px] sm:h-[400px] md:h-[450px] relative order-1 md:order-2">
-           <ImageSlider images={sliderImages} />
+        {/* The Slider Section */}
+        <div className="flex-1 w-full min-h-[300px] sm:min-h-[400px] relative order-2">
+           {/* Logic to switch between sliders */}
+           {isMobile ? (
+             <MobileImageSlider images={sliderImages} />
+           ) : (
+             <ImageSlider images={sliderImages} />
+           )}
            
-           {/* Floating Badge: Scaled down and repositioned for mobile */}
-           <div className="absolute -bottom-4 -right-2 sm:-left-6 bg-white p-4 sm:p-6 rounded-2xl shadow-xl border border-slate-100 z-10">
-              <p className="text-2xl sm:text-3xl font-bold text-procure-navy">100%</p>
-              <p className="text-xs sm:text-sm text-procure-slate font-medium">Timely Quality Always</p>
+           {/* Floating Badge */}
+           <div className="absolute -bottom-4 right-4 sm:-left-6 bg-white p-4 rounded-2xl shadow-xl border border-slate-100 z-10">
+              <p className="text-2xl font-bold text-procure-navy">100%</p>
+              <p className="text-xs text-procure-slate font-medium">Timely Quality Always</p>
            </div>
         </div>
         
