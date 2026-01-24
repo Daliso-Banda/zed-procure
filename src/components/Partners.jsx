@@ -3,16 +3,18 @@ import React from 'react';
 // Import your client/partner logos
 import client1 from '../assets/tiger.png';
 import client2 from '../assets/pspf.jpeg';
-import client3 from '../assets/tiger.png'; // Replace with actual unique logos
-import client4 from '../assets/tiger.png';
+import client3 from '../assets/Coat_of_arms_of_Zambia.svg'; // Replace with actual unique logos
+import client4 from '../assets/EC-LOGO.png';
+import client5 from '../assets/RDA.png';
+import client6 from '../assets/tobacco.jpeg';
 
 const partners = [
   { name: "Tiger", logo: client1 },
   { name: "PSPF", logo: client2 },
-  { name: "Partner 3", logo: client3 },
-  { name: "Partner 4", logo: client4 },
-  { name: "Partner 5", logo: client1 }, // Duplicate or add more to fill space
-  { name: "Partner 6", logo: client2 },
+  { name: "GRZ institutions", logo: client3 },
+  { name: "Emoluments Commission", logo: client4 },
+  { name: "Road Development Agency", logo: client5 },
+  { name: "Tobacco Board", logo: client6 },
 ];
 
 const Partners = () => {
