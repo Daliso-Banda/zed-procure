@@ -6,8 +6,14 @@ const ImageSlider = ({ images }) => {
   const touchStart = useRef(null);
   const touchEnd = useRef(null);
 
-  // Minimum distance to be considered a swipe
-  const minSwipeDistance = 50;
+  // Safety check: if images aren't loading, show a placeholder
+  if (!images || images.length === 0) {
+    return (
+      <div className="w-full h-full bg-slate-200 flex items-center justify-center rounded-3xl">
+        <p className="text-slate-500 font-medium">No images provided</p>
+      </div>
+    );
+  }
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -19,66 +25,65 @@ const ImageSlider = ({ images }) => {
   const nextSlide = () => setCurrentIndex((prev) => (prev + 1) % images.length);
   const prevSlide = () => setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
 
-  // Swipe Logic
-  const onTouchStart = (e) => {
-    touchEnd.current = null;
-    touchStart.current = e.targetTouches[0].clientX;
-  };
-
-  const onTouchMove = (e) => {
-    touchEnd.current = e.targetTouches[0].clientX;
-  };
-
-  const onTouchEnd = () => {
+  // Swipe logic for mobile/tablet users on desktop view
+  const handleTouchStart = (e) => (touchStart.current = e.targetTouches[0].clientX);
+  const handleTouchMove = (e) => (touchEnd.current = e.targetTouches[0].clientX);
+  const handleTouchEnd = () => {
     if (!touchStart.current || !touchEnd.current) return;
     const distance = touchStart.current - touchEnd.current;
-    const isLeftSwipe = distance > minSwipeDistance;
-    const isRightSwipe = distance < -minSwipeDistance;
-
-    if (isLeftSwipe) nextSlide();
-    if (isRightSwipe) prevSlide();
+    if (distance > 50) nextSlide();
+    if (distance < -50) prevSlide();
   };
 
   return (
     <div 
-      className="w-full h-full relative group overflow-hidden rounded-3xl border border-slate-200 shadow-inner select-none"
-      onTouchStart={onTouchStart}
-      onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEnd}
+      className="relative w-full h-full min-h-[300px] overflow-hidden rounded-3xl border border-slate-200 shadow-lg bg-slate-100"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
+      {/* Images Container */}
       {images.map((img, index) => (
-        <img 
+        <div
           key={index}
-          src={img} 
-          alt={`Slide ${index}`} 
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${
-            index === currentIndex ? 'opacity-100' : 'opacity-0'
+          className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${
+            index === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
           }`}
-        />
+        >
+          <img 
+            src={img} 
+            alt={`Slide ${index}`} 
+            className="w-full h-full object-cover"
+            onDragStart={(e) => e.preventDefault()}
+          />
+        </div>
       ))}
 
-      {/* Navigation Arrows - Hidden on touch devices unless hovered */}
+      {/* Navigation Arrows - Forced to z-20 */}
       <button 
-        onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white z-20 hidden md:block"
+        onClick={(e) => { e.stopPropagation(); prevSlide(); }}
+        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 p-2 rounded-full shadow-lg z-20 hover:bg-white transition-all hidden md:flex items-center justify-center text-procure-navy"
       >
-        <ChevronLeft size={24} className="text-procure-navy" />
+        <ChevronLeft size={24} />
       </button>
+      
       <button 
-        onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white z-20 hidden md:block"
+        onClick={(e) => { e.stopPropagation(); nextSlide(); }}
+        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 p-2 rounded-full shadow-lg z-20 hover:bg-white transition-all hidden md:flex items-center justify-center text-procure-navy"
       >
-        <ChevronRight size={24} className="text-procure-navy" />
+        <ChevronRight size={24} />
       </button>
 
-      {/* Slide Indicators */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+      {/* Slide Indicators - Forced to z-20 */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-20">
         {images.map((_, i) => (
           <button 
             key={i}
             onClick={() => setCurrentIndex(i)}
-            className={`h-2 rounded-full transition-all ${
-              i === currentIndex ? 'w-6 bg-procure-copper' : 'w-2 bg-white/50 hover:bg-white'
+            className={`h-2.5 rounded-full transition-all border border-black/5 shadow-sm ${
+              i === currentIndex 
+                ? 'w-8 bg-blue-600' // Using blue-600 for visibility; swap for your copper hex
+                : 'w-2.5 bg-white/70 hover:bg-white'
             }`}
           />
         ))}

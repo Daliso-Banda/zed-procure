@@ -36,7 +36,7 @@ const MobileImageSlider = ({ images }) => {
       </Swiper>
 
       {/* Custom CSS for Pagination Dots */}
-      <style jsx global>{`
+      {/* <style jsx global>{`
         .swiper-pagination-bullet-active {
           background: #your-navy-color-code !important; 
         }
@@ -44,7 +44,17 @@ const MobileImageSlider = ({ images }) => {
           width: 10px;
           height: 10px;
         }
-      `}</style>
+      `}</style> */}
+      {/* Use quotes or a string template to satisfy the React prop check */}
+<style jsx="true" global="true">{`
+  .swiper-pagination-bullet-active {
+    background: #001f3f !important; /* Replace with your navy hex */
+  }
+  .swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+  }
+`}</style>
     </div>
   );
 };
