@@ -5,7 +5,9 @@ import {
   Palette, 
   Printer, 
   Settings, 
-  Droplets 
+  Droplets,
+  Handshake, 
+  SunMedium
 } from 'lucide-react';
 
 const services = [
@@ -34,10 +36,26 @@ const services = [
     description: "Sourcing of critical operational inputs like security seals, high-grade lubricants, and specialized chemical inputs.",
     icon: <Droplets className="w-8 h-8 text-procure-copper" />,
   },
+   {
+    title: "Solar & Green Energy Solutions",
+    description: "Provision of solar panels, inverters, batteries, and complete off-grid solar systems for sustainable energy needs.",
+    icon: <SunMedium className="w-8 h-8 text-procure-copper" />,
+  },
   {
     title: "Industrial Haulage & Logistics",
-    description: "Comprehensive tracking and logistics featuring earth-moving equipment, cranes, and forklift services for heavy operations.",
+    description: "Comprehensive contractual trucking and logistics featuring earth-moving equipment, cranes, and forklift hiring for heavy operations.",
     icon: <Truck className="w-8 h-8 text-procure-copper" />,
+  },
+  {
+    title: "ICT & Office Equipment",
+    description: "Provision of cutting-edge ICT solutions including computers, networking hardware, and office automation equipment.",
+    icon: <Printer className="w-8 h-8 text-procure-copper" />,
+  },
+  {
+    title: "General Dealing",
+    description: "As a professional general dealer, we source a wide range of specialized items upon request to meet unique business needs.",
+    // use hand shake icon from lucide-react
+    icon: <Handshake className="w-8 h-8 text-procure-copper" />,
   },
 ];
 
@@ -69,6 +87,7 @@ const Services = () => {
             </div>
           ))}
         </div>
+        
         
         {/* Additional Note for General Dealing */}
         <div className="mt-16 text-center">
