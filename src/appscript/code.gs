@@ -13,7 +13,7 @@ function doOptions(e) {
 /***********************
  * CONFIGURATION
  ***********************/
-const ADMIN_EMAIL = "info@gentlemansltd.com";
+const ADMIN_EMAIL = "grlimited25@gmail.com";
 const SITE_KEY = "gentlemans-frontend";
 const SHEET_ID = "1oP-iwSN7jJ5OVY3S-_n1iMJvktNmvbsl4BNmVSBBTu4";
 
@@ -133,13 +133,33 @@ function routeEvent(payload) {
 /***********************
  * HANDLERS
  ***********************/
+// function handleQuoteRequest(payload) {
+//   const data = payload.data || {};
+//   Logger.log("Handling quote request: " + JSON.stringify(data));
+
+//   MailApp.sendEmail({
+//     to: ADMIN_EMAIL,
+//     subject: "New Quote Request",
+//     htmlBody: `
+//       <h3>New Quote Request</h3>
+//       <b>Name:</b> ${data.name || "N/A"}<br/>
+//       <b>Email:</b> ${data.email || "N/A"}<br/>
+//       <b>Service:</b> ${data.service || "N/A"}<br/><br/>
+//       <b>Details:</b><br/>
+//       ${data.details || "N/A"}
+//     `
+//   });
+
+//   logToSheet("Quote Requests", payload);
+// }
+
 function handleQuoteRequest(payload) {
   const data = payload.data || {};
-  Logger.log("Handling quote request: " + JSON.stringify(data));
-
-  MailApp.sendEmail({
+  
+  // Prepare the base email options
+  const emailOptions = {
     to: ADMIN_EMAIL,
-    subject: "New Quote Request",
+    subject: `New Quote Request: ${data.service || "General"}`,
     htmlBody: `
       <h3>New Quote Request</h3>
       <b>Name:</b> ${data.name || "N/A"}<br/>
@@ -148,8 +168,32 @@ function handleQuoteRequest(payload) {
       <b>Details:</b><br/>
       ${data.details || "N/A"}
     `
-  });
+  };
 
+  // Check if an attachment exists and convert it
+  if (data.attachment && data.attachment.base64) {
+    try {
+      const decodedFile = Utilities.base64Decode(data.attachment.base64);
+      const blob = Utilities.newBlob(decodedFile, data.attachment.type, data.attachment.name);
+      
+      // Add the file to the email
+      emailOptions.attachments = [blob];
+      
+      // Update HTML body to let admin know there is a file
+      emailOptions.htmlBody += `<br/><br/>📎 <b>Attachment included:</b> ${data.attachment.name}`;
+    } catch (err) {
+      Logger.log("Attachment error: " + err.toString());
+      emailOptions.htmlBody += `<br/><br/>⚠️ <b>Attachment failed to process.</b>`;
+    }
+  }
+
+  MailApp.sendEmail(emailOptions);
+
+  // LOGGING: Remove the heavy Base64 data before saving to Google Sheets
+  if (data.attachment) {
+    data.attachment.base64 = "[FILE ATTACHED]"; // Replace long string with a placeholder
+  }
+  
   logToSheet("Quote Requests", payload);
 }
 
@@ -190,25 +234,54 @@ function testEmail() {
 /***********************
  * GOOGLE SHEETS LOGGING
  ***********************/
+// function logToSheet(sheetName, payload) {
+//   const ss = SpreadsheetApp.openById(SHEET_ID);
+//   let sheet = ss.getSheetByName(sheetName);
+
+//   if (!sheet) {
+//     sheet = ss.insertSheet(sheetName);
+//     sheet.appendRow([
+//       "Timestamp",
+//       "Event",
+//       "Email",
+//       "Payload"
+//     ]);
+//   }
+
+//   sheet.appendRow([
+//     new Date(),
+//     payload.event,
+//     payload.data && payload.data.email ? payload.data.email : "",
+//     JSON.stringify(payload.data || {})
+//   ]);
+// }
+
 function logToSheet(sheetName, payload) {
   const ss = SpreadsheetApp.openById(SHEET_ID);
   let sheet = ss.getSheetByName(sheetName);
+  const data = payload.data || {};
 
   if (!sheet) {
     sheet = ss.insertSheet(sheetName);
+    // Setup Headers for Quote Requests
     sheet.appendRow([
-      "Timestamp",
-      "Event",
-      "Email",
-      "Payload"
+      "Timestamp", 
+      "Name", 
+      "Email", 
+      "Service", 
+      "Details", 
+      "Attachment Name"
     ]);
   }
 
+  // Append clean data
   sheet.appendRow([
     new Date(),
-    payload.event,
-    payload.data && payload.data.email ? payload.data.email : "",
-    JSON.stringify(payload.data || {})
+    data.name || "N/A",
+    data.email || "N/A",
+    data.service || "N/A",
+    data.details || "N/A",
+    (data.attachment ? data.attachment.name : "None")
   ]);
 }
 
