@@ -65,7 +65,7 @@ const Footer = () => {
       
       <div className="max-w-7xl mx-auto mt-8 flex flex-col md:flex-row justify-between items-center text-slate-500 text-xs">
         <p>© 2026 {companyName}. All rights reserved.</p>
-        <p>A member of the Zambia Institute of Purchasing and Supply (ZIPS)</p>
+        <p>A member of the Zambia Public Procurement Authority (ZPPA)</p>
       </div>
     </footer>
   );
