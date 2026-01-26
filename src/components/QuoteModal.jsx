@@ -18,7 +18,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
   const toBase64 = (file) => new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result.split(',')[1]); // Strip the prefix
+    reader.onload = () => resolve(reader.result.split(',')[1]); // Strip the data:mime prefix
     reader.onerror = error => reject(error);
   });
 
@@ -38,15 +38,16 @@ const QuoteModal = ({ isOpen, onClose }) => {
         };
       }
 
+      // Send payload with siteKey for authorization
       await notifyAdmin({
+        siteKey: "gentlemans-frontend", 
         event: "quote_request",
         source: "website",
         timestamp: new Date().toISOString(),
         data: {
           ...formData,
-          attachment: filePayload // Attach the file object here
-        },
-        siteKey: "gentlemans-frontend"
+          attachment: filePayload 
+        }
       });
 
       alert("Success! Gentlemans Resources has received your request.");
@@ -77,7 +78,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
       ></div>
 
       {/* Modal Content */}
-      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in duration-300">
+      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in duration-300 text-slate-900">
         <div className="bg-procure-navy p-6 text-white flex justify-between items-center">
           <div>
             <h2 className="text-xl font-bold">Request a Quote</h2>
