@@ -7,6 +7,7 @@ import client3 from '../assets/Coat_of_arms_of_Zambia.svg'; // Replace with actu
 import client4 from '../assets/EC-LOGO.png';
 import client5 from '../assets/RDA.png';
 import client6 from '../assets/tobacco.jpeg';
+import client7 from '../assets/zesco.png';
 
 const partners = [
   { name: "Tiger", logo: client1 },
@@ -15,6 +16,7 @@ const partners = [
   { name: "Emoluments Commission", logo: client4 },
   { name: "Road Development Agency", logo: client5 },
   { name: "Tobacco Board", logo: client6 },
+  { name: "ZESCO", logo: client7 },
 ];
 
 const Partners = () => {
