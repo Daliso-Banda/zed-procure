@@ -54,7 +54,7 @@ const Compliance = () => {
               <Shield className="text-procure-navy w-10 h-10 shrink-0" />
               <div className="text-left">
                 <p className="font-bold text-procure-navy">Verified Vendor</p>
-                <p className="text-xs text-slate-500 italic tracking-tight">Reg No: 120XXXXXXXXXXX</p>
+                <p className="text-xs text-slate-500 italic tracking-tight">Reg No: 46922</p>
               </div>
             </div>
           </div>

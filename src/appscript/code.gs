@@ -13,7 +13,7 @@ function doOptions(e) {
 /***********************
  * CONFIGURATION
  ***********************/
-const ADMIN_EMAIL = "grlimited25@gmail.com";
+const ADMIN_EMAIL = "isaaclumbwest+grl-siterequest@gmail.com";
 const SITE_KEY = "gentlemans-frontend";
 const SHEET_ID = "1oP-iwSN7jJ5OVY3S-_n1iMJvktNmvbsl4BNmVSBBTu4";
 
