@@ -2,18 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { ShieldCheck } from 'lucide-react';
 import ImageSlider from './ImageSlider.jsx';
 import MobileImageSlider from './MobileImageSlider.jsx';
+import { getHeroSliderImages } from '../utils/imageLoader.js';
 
-import heroImage1 from '../assets/gentsgate.jpeg'; 
-import heroImage2 from '../assets/Renovation of Lobby and installation of Motion Sensor door, at Public Service Pensions Fund.jpeg';
-import heroImage3 from '../assets/window_installation.jpeg';
-import heroImage4 from '../assets/Construction of Ground breaking Plague for Radiation Protection Authority.jpeg';
-import heroImage5 from '../assets/Complete renovation and Branding of Showgrounds stand for Public Service Pensions Fund.jpeg';
-import heroImage6 from '../assets/Installation of PVC ceiling boards at Superior Furnitures.jpeg';
-import heroImage7 from '../assets/Installation of False roof and Gutter systems at Superior Furnitures.jpeg'; 
-import heroImage8 from '../assets/During Showgrounds renovations for pensions funds.jpeg';
 const Hero = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [sliderImages, setSliderImages] = useState([]);
 
   useEffect(() => {
     setMounted(true);
@@ -22,11 +16,13 @@ const Hero = () => {
     // Set initial value on mount
     handleResize();
     
+    // Load images dynamically
+    const images = getHeroSliderImages();
+    setSliderImages(images);
+    
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  const sliderImages = [heroImage1, heroImage2, heroImage1, heroImage3, heroImage4, heroImage5, heroImage6];
 
   // Prevent hydration mismatch by not rendering slider until mounted
   if (!mounted) return null;
