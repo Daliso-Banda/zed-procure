@@ -1,13 +1,16 @@
-import React from 'react';
-import { Mail, Phone, MapPin, Linkedin, Facebook } from 'lucide-react';
+import React, { useState } from 'react'; // Added useState
+import { Mail, Phone, MapPin, Facebook, X } from 'lucide-react'; // Added X for close icon
+import PrivacyPolicy from '../pages/PrivacyPolicy.jsx'; // Updated import to use as component
 
 const Footer = () => {
+  // 1. State to manage modal visibility
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const companyName = import.meta.env.VITE_COMPANY_NAME;
   const companyPhone = import.meta.env.VITE_COMPANY_PHONE;
   const companyEmail = import.meta.env.VITE_COMPANY_EMAIL;
   const companyAddress = import.meta.env.VITE_COMPANY_ADDRESS;
   const facebookUrl = import.meta.env.VITE_FACEBOOK_URL;
-  const linkedinUrl = import.meta.env.VITE_LINKEDIN_URL;
 
   return (
     <footer className="bg-procure-navy text-white pt-16 pb-8 px-6">
@@ -28,8 +31,17 @@ const Footer = () => {
           <ul className="space-y-4 text-slate-400 text-sm">
             <li><a href="#Services" className="hover:text-procure-copper transition">Our Services</a></li>
             <li><a href="#Compliance" className="hover:text-procure-copper transition">Compliance Documents</a></li>
-            <li><a href="#Vendor" className="hover:text-procure-copper transition">Vendor Registration</a></li>
-            <li><a href="#Privacy" className="hover:text-procure-copper transition">Privacy Policy</a></li>
+            {/* <li><a href="#Vendor" className="hover:text-procure-copper transition">Vendor Registration</a></li> */}
+            
+            {/* 2. Changed <a> to <button> for the popup trigger */}
+            <li>
+              <button 
+                onClick={() => setIsModalOpen(true)} 
+                className="hover:text-procure-copper transition text-left"
+              >
+                Privacy Policy
+              </button>
+            </li>
           </ul>
         </div>
 
@@ -52,11 +64,9 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Newsletter/Social */}
         <div>
           <h4 className="font-bold mb-6 text-lg">Follow Us</h4>
           <div className="flex gap-4 mb-6">
-            {/* <a href={linkedinUrl} className="bg-slate-800 p-3 rounded-full hover:bg-procure-copper transition"><Linkedin size={20} /></a> */}
             <a href={facebookUrl} className="bg-slate-800 p-3 rounded-full hover:bg-procure-copper transition"><Facebook size={20} /></a>
           </div>
           <p className="text-xs text-slate-500 italic">Registered in the Republic of Zambia</p>
@@ -67,6 +77,24 @@ const Footer = () => {
         <p>© 2026 {companyName}. All rights reserved.</p>
         <p>A member of the Zambia Public Procurement Authority (ZPPA)</p>
       </div>
+
+      {/* 3. Modal Logic */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+          <div className="relative bg-white text-slate-900 w-full max-w-4xl max-h-[80vh] overflow-y-auto rounded-xl shadow-2xl p-8">
+            {/* Close Button */}
+            <button 
+              onClick={() => setIsModalOpen(false)}
+              className="absolute top-4 right-4 p-2 hover:bg-slate-100 rounded-full transition"
+            >
+              <X size={24} />
+            </button>
+            
+            {/* The actual Privacy Policy content */}
+            <PrivacyPolicy />
+          </div>
+        </div>
+      )}
     </footer>
   );
 };

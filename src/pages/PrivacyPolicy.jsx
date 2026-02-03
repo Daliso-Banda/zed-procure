@@ -28,7 +28,6 @@ const PrivacyPolicy = () => {
             <div className="space-y-3 text-gray-700">
               <p><strong>Personal Information:</strong> We may collect information you provide directly, such as your name, email address, phone number, company name, and other contact details when you interact with our services.</p>
               <p><strong>Automatically Collected Information:</strong> We may automatically collect certain information about your device and how you interact with our website, including IP address, browser type, and pages visited.</p>
-              <p><strong>Compliance Documentation:</strong> When registering as a vendor or submitting compliance documents, you may provide additional business-related information.</p>
             </div>
           </section>
 
@@ -37,7 +36,6 @@ const PrivacyPolicy = () => {
             <h2 className="text-2xl font-bold text-procure-navy mb-4">3. How We Use Your Information</h2>
             <ul className="text-gray-700 space-y-2 list-disc list-inside">
               <li>To provide and improve our services</li>
-              <li>To process vendor registrations and compliance requests</li>
               <li>To communicate with you regarding your account or inquiries</li>
               <li>To comply with legal obligations and regulations</li>
               <li>To send marketing communications (with your consent)</li>
