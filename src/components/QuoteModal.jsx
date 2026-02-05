@@ -101,7 +101,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
               disabled={isSubmitting}
               type="text" 
               className="w-full border border-slate-200 rounded-lg p-3 focus:ring-2 focus:ring-procure-copper outline-none transition disabled:bg-slate-50"
-              placeholder="e.g. John Doe or MineCorp Zambia"
+              placeholder="e.g. Daliso Banda or Innova tech Zambia"
               value={formData.name}
               onChange={(e) => setFormData({...formData, name: e.target.value})}
             />
@@ -128,11 +128,11 @@ const QuoteModal = ({ isOpen, onClose }) => {
               value={formData.service}
               onChange={(e) => setFormData({...formData, service: e.target.value})}
             >
-              <option>Construction & Renovation</option>
+              <option>Construction & Renovation</option> 
+              <option>Aluminium & Glass Works</option>
               <option>Corporate Branding</option>
               <option>Press Printing</option>
-              <option>Industrial Parts</option>
-              <option>Industrial Consumables</option>
+              <option>Industrial Parts & Consumables</option>
               <option>Haulage & Logistics</option>
               <option>ICT Equipment, Consumables and Software</option>
               <option>General Dealings</option>
