@@ -134,6 +134,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
               <option>Industrial Parts</option>
               <option>Industrial Consumables</option>
               <option>Haulage & Logistics</option>
+              <option>ICT Equipment, Consumables and Software</option>
+              <option>General Dealings</option>
             </select>
           </div>
 
